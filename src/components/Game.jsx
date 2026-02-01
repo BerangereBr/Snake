@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
+    const [food, setFood] = useState({ x: 5, y: 5 });
     const [direction, setDirection] = useState('RIGHT');
 
     useEffect(() => {
@@ -54,7 +55,7 @@ function Game() {
     }, [direction])
 
     return (
-        <Board snake={snake} />
+        <Board snake={snake} food={food} />
     )
 }
 
