@@ -25,13 +25,17 @@ function Game() {
                         newHead = { x: head.x, y: head.y + 1 }
                         break
                 }
-                const newSnake = [newHead, ...prevSnake];
-                newSnake.pop()
-                setSnake(newSnake)
+                const isEating = newHead.x === food.x && newHead.y === food.y
+
+                let newSnake = [newHead, ...prevSnake];
+                if (!isEating) {
+                    newSnake.pop()
+                }
+                return newSnake
             })
         }, 200)
         return () => clearInterval(interval)
-    }, [direction])
+    }, [direction, food])
 
     useEffect(() => {
         function handleKey(e) {
