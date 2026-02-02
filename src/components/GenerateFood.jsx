@@ -1,6 +1,6 @@
 const GRID_SIZE = 20;
 
-function newFood(snake) {
+function GenerateFood(snake) {
     let newFood
     do {
         newFood = {
@@ -16,4 +16,4 @@ function newFood(snake) {
     return newFood;
 }
 
-export default newFood;
+export default GenerateFood;

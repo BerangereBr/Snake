@@ -1,6 +1,6 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
-import newFood from "./newFood";
+import GenerateFood from "./GenerateFood";
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
@@ -26,12 +26,19 @@ function Game() {
                         newHead = { x: head.x, y: head.y + 1 }
                         break
                 }
-                const isEating = newHead.x === food.x && newHead.y === food.y
+                const isEating = newHead.x === food.x && newHead.y === food.y;
                 let newSnake = [newHead, ...prevSnake];
                 if (isEating) {
-                    setFood(newFood(newSnake))
+                    setFood(GenerateFood(newSnake))
                 } else {
                     newSnake.pop()
+                }
+                const hasSelfCollision = newSnake
+                    .slice(1)
+                    .some((cellSnake) => cellSnake.x === newHead.x && cellSnake.y === newHead.y);
+                if (hasSelfCollision) {
+                    alert('GAME OVER')
+                    return [{ x: 10, y: 10 }]
                 }
                 return newSnake
             })
