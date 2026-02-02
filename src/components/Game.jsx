@@ -1,5 +1,6 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
+import newFood from "./newFood";
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
@@ -26,9 +27,10 @@ function Game() {
                         break
                 }
                 const isEating = newHead.x === food.x && newHead.y === food.y
-
                 let newSnake = [newHead, ...prevSnake];
-                if (!isEating) {
+                if (isEating) {
+                    setFood(newFood(newSnake))
+                } else {
                     newSnake.pop()
                 }
                 return newSnake
