@@ -1,11 +1,14 @@
+import '../styles/board.css';
+
 const GRID_SIZE = 20;
 const CELL_SIZE = 30;
 
 function Board({ snake, food }) {
     const score = snake.length - 1;
     return (
-        <div>
+        <div className='container-board'>
             <div
+                className='board'
                 style={{
                     display: 'grid',
                     gridTemplateColumns: `repeat(${GRID_SIZE},${CELL_SIZE}px)`,
