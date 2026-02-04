@@ -2,13 +2,17 @@ import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
 import '../styles/game.css'
+
 const GRID_SIZE = 20
+
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
     const [food, setFood] = useState({ x: 5, y: 5 });
     const [direction, setDirection] = useState('RIGHT');
     const [openModalGameover, setOpenModalGameover] = useState(false);
-    const [gameOver, setGameOver] = useState(false)
+    const [gameOver, setGameOver] = useState(false);
+    const score = snake.length - 1;
+
     useEffect(() => {
         if (gameOver) return
         const interval = setInterval(() => {
@@ -29,21 +33,27 @@ function Game() {
                         newHead = { x: head.x, y: head.y + 1 }
                         break
                 }
+
                 const isEating = newHead.x === food.x && newHead.y === food.y;
+
                 let newSnake = [newHead, ...prevSnake];
+
                 if (isEating) {
                     setFood(GenerateFood(newSnake))
                 } else {
                     newSnake.pop()
                 }
+
                 const hasSelfCollision = newSnake
                     .slice(1)
                     .some((cellSnake) => cellSnake.x === newHead.x && cellSnake.y === newHead.y);
+
                 const hasWallCollision =
                     newHead.x < 0 ||
                     newHead.x >= GRID_SIZE ||
                     newHead.y < 0 ||
                     newHead.y >= GRID_SIZE;
+
                 if (hasSelfCollision || hasWallCollision) {
                     setOpenModalGameover(true);
                     setGameOver(true)
@@ -74,19 +84,22 @@ function Game() {
         }
         window.addEventListener("keydown", handleKey)
         return () => window.removeEventListener("keydown", handleKey)
-    }, [direction])
+    }, [direction]);
+
     function Replay() {
         setOpenModalGameover(false);
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setGameOver(false);
     }
+
     return (
         <div>
             <Board snake={snake} food={food} />
             {openModalGameover ? <div className="modal-gameover">
                 <div className="modal-text">
                     <p>GAME OVER</p>
+                    <p>Score : {score}</p>
                     <button onClick={Replay}>Rejouer</button>
                 </div>
             </div> : null}
