@@ -2,6 +2,7 @@ import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
 
+const GRID_SIZE = 20
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
     const [food, setFood] = useState({ x: 5, y: 5 });
@@ -36,7 +37,12 @@ function Game() {
                 const hasSelfCollision = newSnake
                     .slice(1)
                     .some((cellSnake) => cellSnake.x === newHead.x && cellSnake.y === newHead.y);
-                if (hasSelfCollision) {
+                const hasWallCollision =
+                    newHead.x < 0 ||
+                    newHead.x >= GRID_SIZE ||
+                    newHead.y < 0 ||
+                    newHead.y >= GRID_SIZE;
+                if (hasSelfCollision || hasWallCollision) {
                     alert('GAME OVER')
                     return [{ x: 10, y: 10 }]
                 }
