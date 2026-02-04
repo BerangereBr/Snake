@@ -66,6 +66,7 @@ function Game() {
     }, [direction, food, gameOver])
 
     useEffect(() => {
+        if (gameOver) return
         function handleKey(e) {
             switch (e.key) {
                 case "ArrowUp":
@@ -84,13 +85,14 @@ function Game() {
         }
         window.addEventListener("keydown", handleKey)
         return () => window.removeEventListener("keydown", handleKey)
-    }, [direction]);
+    }, [direction, gameOver]);
 
     function Replay() {
         setOpenModalGameover(false);
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setGameOver(false);
+        setDirection('RIGHT');
     }
 
     return (
