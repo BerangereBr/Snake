@@ -1,14 +1,16 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
-
+import '../styles/game.css'
 const GRID_SIZE = 20
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
     const [food, setFood] = useState({ x: 5, y: 5 });
     const [direction, setDirection] = useState('RIGHT');
-
+    const [openModalGameover, setOpenModalGameover] = useState(false);
+    const [gameOver, setGameOver] = useState(false)
     useEffect(() => {
+        if (gameOver) return
         const interval = setInterval(() => {
             setSnake((prevSnake) => {
                 const head = prevSnake[0];
@@ -43,14 +45,15 @@ function Game() {
                     newHead.y < 0 ||
                     newHead.y >= GRID_SIZE;
                 if (hasSelfCollision || hasWallCollision) {
-                    alert('GAME OVER')
-                    return [{ x: 10, y: 10 }]
+                    setOpenModalGameover(true);
+                    setGameOver(true)
+                    return prevSnake;
                 }
                 return newSnake
             })
         }, 200)
         return () => clearInterval(interval)
-    }, [direction, food])
+    }, [direction, food, gameOver])
 
     useEffect(() => {
         function handleKey(e) {
@@ -72,9 +75,22 @@ function Game() {
         window.addEventListener("keydown", handleKey)
         return () => window.removeEventListener("keydown", handleKey)
     }, [direction])
-
+    function Replay() {
+        setOpenModalGameover(false);
+        setSnake([{ x: 10, y: 10 }]);
+        setFood({ x: 5, y: 5 });
+        setGameOver(false);
+    }
     return (
-        <Board snake={snake} food={food} />
+        <div>
+            <Board snake={snake} food={food} />
+            {openModalGameover ? <div className="modal-gameover">
+                <div className="modal-text">
+                    <p>GAME OVER</p>
+                    <button onClick={Replay}>Rejouer</button>
+                </div>
+            </div> : null}
+        </div>
     )
 }
 

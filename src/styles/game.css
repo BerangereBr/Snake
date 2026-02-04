@@ -1,0 +1,22 @@
+.modal-gameover {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    top: 0;
+    background-color: rgba(148, 148, 148, 0.5);
+}
+
+.modal-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 400px;
+    height: 200px;
+}
