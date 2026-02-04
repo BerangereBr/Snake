@@ -3,8 +3,7 @@ import '../styles/board.css';
 const GRID_SIZE = 20;
 const CELL_SIZE = 30;
 
-function Board({ snake, food }) {
-    const score = snake.length - 1;
+function Board({ snake, food, score }) {
     return (
         <div className='container-board'>
             <div
@@ -35,7 +34,7 @@ function Board({ snake, food }) {
                         </div>)
                 })}
             </div >
-            <div>Score : {score}</div>
+            <div className='board-score'>Score : {score}</div>
         </div>
     )
 }

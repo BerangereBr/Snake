@@ -11,7 +11,7 @@ function Game() {
     const [direction, setDirection] = useState('RIGHT');
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
-    const score = snake.length - 1;
+    const score = Math.max(0, snake.length - 1);
 
     useEffect(() => {
         if (gameOver) return
@@ -95,7 +95,7 @@ function Game() {
 
     return (
         <div>
-            <Board snake={snake} food={food} />
+            <Board snake={snake} food={food} score={score} />
             {openModalGameover ? <div className="modal-gameover">
                 <div className="modal-text">
                     <p>GAME OVER</p>
