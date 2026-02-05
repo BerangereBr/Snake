@@ -67,7 +67,7 @@ function Game() {
     }, [direction, food, gameOver, speed, playing]);
 
     useEffect(() => {
-        if (gameOver) return
+        if (!playing || gameOver) return
         function handleKey(e) {
             switch (e.key) {
                 case "ArrowUp":
@@ -86,7 +86,7 @@ function Game() {
         }
         window.addEventListener("keydown", handleKey)
         return () => window.removeEventListener("keydown", handleKey)
-    }, [direction, gameOver]);
+    }, [direction, gameOver, playing]);
 
     function Replay() {
         setOpenModalGameover(false);
@@ -94,12 +94,29 @@ function Game() {
         setFood({ x: 5, y: 5 });
         setDirection('RIGHT');
         setSpeed(300);
+        setGameOver(false);
+        setPlaying(false);
     }
 
     function startGame() {
         setPlaying(true);
         setGameOver(false);
     }
+    useEffect(() => {
+        if (playing) return
+        function handleStart(e) {
+            if (
+                e.key === 'ArrowUp' ||
+                e.key === 'ArrowDown' ||
+                e.key === 'ArrowLeft' ||
+                e.key === 'ArrowRight'
+            ) {
+                setPlaying(true);
+            }
+        }
+        window.addEventListener('keydown', handleStart);
+        return () => window.removeEventListener('keydown', handleStart);
+    }, [playing, gameOver]);
 
     return (
         <div className="bg-[#0A0A0A]" >

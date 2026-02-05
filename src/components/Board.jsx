@@ -26,7 +26,7 @@ function Board({ snake, food, score, playing, onStart }) {
                             style={{
                                 width: CELL_SIZE,
                                 height: CELL_SIZE,
-                                border: '1px solid #616161',
+                                border: '1px solid #DBDBDB',
                                 backgroundColor: headSnake ? '#079C0C' : isSnake ? '#27F52E' : isFood ? '#FF0000' : 'white',
                             }}>
                         </div>)
