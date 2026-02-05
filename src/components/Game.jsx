@@ -1,9 +1,8 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
-import '../styles/game.css'
 
-const GRID_SIZE = 20
+const GRID_SIZE = 15
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
@@ -11,6 +10,7 @@ function Game() {
     const [direction, setDirection] = useState('RIGHT');
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [speed, setSpeed] = useState(300);
     const score = Math.max(0, snake.length - 1);
 
     useEffect(() => {
@@ -35,11 +35,11 @@ function Game() {
                 }
 
                 const isEating = newHead.x === food.x && newHead.y === food.y;
-
                 let newSnake = [newHead, ...prevSnake];
 
                 if (isEating) {
-                    setFood(GenerateFood(newSnake))
+                    setFood(GenerateFood(newSnake));
+                    setSpeed((prevSpeed) => Math.max(50, prevSpeed - 5));
                 } else {
                     newSnake.pop()
                 }
@@ -61,9 +61,9 @@ function Game() {
                 }
                 return newSnake
             })
-        }, 200)
+        }, speed)
         return () => clearInterval(interval)
-    }, [direction, food, gameOver])
+    }, [direction, food, gameOver, speed]);
 
     useEffect(() => {
         if (gameOver) return
@@ -91,18 +91,19 @@ function Game() {
         setOpenModalGameover(false);
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
-        setGameOver(false);
         setDirection('RIGHT');
+        setGameOver(false);
+        setSpeed(300);
     }
 
     return (
-        <div>
+        <div className="bg-[#0A0A0A]">
             <Board snake={snake} food={food} score={score} />
-            {openModalGameover ? <div className="modal-gameover">
-                <div className="modal-text">
-                    <p>GAME OVER</p>
-                    <p>Score : {score}</p>
-                    <button onClick={Replay}>Rejouer</button>
+            {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-[#616161] bg-opacity-50">
+                <div className="flex flex-col justify-center items-center bg-black w-1/3 h-1/3 rounded gap-5">
+                    <p className="text-[#FF00FF] font-retro text-6xl">GAME OVER</p>
+                    <p className="text-[#FF00FF] font-sans">Score : {score}</p>
+                    <button onClick={Replay} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">Rejouer</button>
                 </div>
             </div> : null}
         </div>

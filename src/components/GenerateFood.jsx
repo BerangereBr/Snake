@@ -1,4 +1,4 @@
-const GRID_SIZE = 20;
+const GRID_SIZE = 15;
 
 function GenerateFood(snake) {
     let newFood
