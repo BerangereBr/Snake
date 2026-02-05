@@ -11,10 +11,11 @@ function Game() {
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [speed, setSpeed] = useState(300);
+    const [playing, setPlaying] = useState(false);
     const score = Math.max(0, snake.length - 1);
 
     useEffect(() => {
-        if (gameOver) return
+        if (!playing || gameOver) return
         const interval = setInterval(() => {
             setSnake((prevSnake) => {
                 const head = prevSnake[0];
@@ -63,7 +64,7 @@ function Game() {
             })
         }, speed)
         return () => clearInterval(interval)
-    }, [direction, food, gameOver, speed]);
+    }, [direction, food, gameOver, speed, playing]);
 
     useEffect(() => {
         if (gameOver) return
@@ -92,13 +93,17 @@ function Game() {
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setDirection('RIGHT');
-        setGameOver(false);
         setSpeed(300);
     }
 
+    function startGame() {
+        setPlaying(true);
+        setGameOver(false);
+    }
+
     return (
-        <div className="bg-[#0A0A0A]">
-            <Board snake={snake} food={food} score={score} />
+        <div className="bg-[#0A0A0A]" >
+            <Board snake={snake} food={food} score={score} isPlaying={playing} onStart={startGame} />
             {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-[#616161] bg-opacity-50">
                 <div className="flex flex-col justify-center items-center bg-black w-1/3 h-1/3 rounded gap-5">
                     <p className="text-[#FF00FF] font-retro text-6xl">GAME OVER</p>

@@ -1,9 +1,9 @@
 const GRID_SIZE = 15;
 const CELL_SIZE = 30;
 
-function Board({ snake, food, score }) {
+function Board({ snake, food, score, playing, onStart }) {
     return (
-        <div className="flex flex-col justify-center items-center w-screen h-screen gap-5">
+        <div className="flex flex-col justify-center items-center w-screen h-screen gap-10">
             <div
                 className='grid rounded shadow-[0px_0px_30px_2px_rgba(0,0,0,0.5)] shadow-[#FF00FF] rounded'
                 style={{
@@ -31,6 +31,7 @@ function Board({ snake, food, score }) {
                 })}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
+            {!playing && <button onClick={onStart} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-1/6">Jouer</button>}
         </div>
     )
 }
