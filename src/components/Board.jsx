@@ -16,8 +16,10 @@ function Board({ snake, food, score, playing, onStart }) {
 
                     let isSnake = snake.some(
                         (segment) => segment.x === x && segment.y === y
-                    )
-                    const isFood = food.x === x && food.y === y
+                    );
+                    let headSnake = snake[0].x === x && snake[0].y === y;
+                    isSnake = headSnake ? false : isSnake;
+                    const isFood = food.x === x && food.y === y;
                     return (
                         <div
                             key={index}
@@ -25,13 +27,13 @@ function Board({ snake, food, score, playing, onStart }) {
                                 width: CELL_SIZE,
                                 height: CELL_SIZE,
                                 border: '1px solid #616161',
-                                backgroundColor: isSnake ? '#00A114' : isFood ? '#FF0000' : 'white',
+                                backgroundColor: headSnake ? '#079C0C' : isSnake ? '#27F52E' : isFood ? '#FF0000' : 'white',
                             }}>
                         </div>)
                 })}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
-            {!playing && <button onClick={onStart} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-1/6">Jouer</button>}
+            {!playing && <button onClick={onStart} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Jouer</button>}
         </div>
     )
 }

@@ -104,11 +104,11 @@ function Game() {
     return (
         <div className="bg-[#0A0A0A]" >
             <Board snake={snake} food={food} score={score} isPlaying={playing} onStart={startGame} />
-            {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-[#616161] bg-opacity-50">
-                <div className="flex flex-col justify-center items-center bg-black w-1/3 h-1/3 rounded gap-5">
-                    <p className="text-[#FF00FF] font-retro text-6xl">GAME OVER</p>
+            {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
+                <div className="flex flex-col justify-center items-center bg-black w-1/4 h-1/3 rounded gap-5">
+                    <p className="text-[#FF00FF] font-retro text-7xl">GAME OVER</p>
                     <p className="text-[#FF00FF] font-sans">Score : {score}</p>
-                    <button onClick={Replay} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">Rejouer</button>
+                    <button onClick={Replay} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Rejouer</button>
                 </div>
             </div> : null}
         </div>
