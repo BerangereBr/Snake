@@ -5,7 +5,7 @@ function Board({ snake, food, score, playing, onStart }) {
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen gap-10">
             <div
-                className='grid rounded shadow-[0px_0px_30px_2px_rgba(0,0,0,0.5)] shadow-[#FF00FF] rounded'
+                className='grid rounded shadow-[0px_0px_30px_2px_rgba(0,0,0,0.5)] shadow-[#FF00FF]'
                 style={{
                     gridTemplateColumns: `repeat(${GRID_SIZE},${CELL_SIZE}px)`,
                     gridTemplateRows: `repeat(${GRID_SIZE},${CELL_SIZE}px)`,

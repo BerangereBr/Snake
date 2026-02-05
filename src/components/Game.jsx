@@ -10,7 +10,7 @@ function Game() {
     const [direction, setDirection] = useState('RIGHT');
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
-    const [speed, setSpeed] = useState(300);
+    const [speed, setSpeed] = useState(200);
     const [playing, setPlaying] = useState(false);
     const score = Math.max(0, snake.length - 1);
 
@@ -40,7 +40,7 @@ function Game() {
 
                 if (isEating) {
                     setFood(GenerateFood(newSnake));
-                    setSpeed((prevSpeed) => Math.max(50, prevSpeed - 5));
+                    setSpeed((prevSpeed) => Math.max(50, prevSpeed - 2));
                 } else {
                     newSnake.pop()
                 }
@@ -93,7 +93,7 @@ function Game() {
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setDirection('RIGHT');
-        setSpeed(300);
+        setSpeed(200);
         setGameOver(false);
         setPlaying(false);
     }
