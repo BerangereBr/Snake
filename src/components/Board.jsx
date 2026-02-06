@@ -1,11 +1,11 @@
 const GRID_SIZE = 15;
 const CELL_SIZE = 30;
 
-function Board({ snake, food, score, playing, onStart }) {
+function Board({ snake, food, score, playing, onStart, countdown }) {
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen gap-10">
             <div
-                className='grid rounded shadow-[0px_0px_30px_2px_rgba(0,0,0,0.5)] shadow-[#FF00FF]'
+                className='grid rounded shadow-[0px_0px_30px_2px_rgba(0,0,0,0.5)] shadow-[#FF00FF] mt-20'
                 style={{
                     gridTemplateColumns: `repeat(${GRID_SIZE},${CELL_SIZE}px)`,
                     gridTemplateRows: `repeat(${GRID_SIZE},${CELL_SIZE}px)`,
@@ -27,14 +27,25 @@ function Board({ snake, food, score, playing, onStart }) {
                                 width: CELL_SIZE,
                                 height: CELL_SIZE,
                                 border: '1px solid #DBDBDB',
-                                backgroundColor: headSnake ? '#079C0C' : isSnake ? '#27F52E' : isFood ? '#FF0000' : 'white',
+                                backgroundColor: headSnake ? '#27F52E' : isSnake ? '#79FF3C' : isFood ? '#FF00FF' : 'white',
                             }}>
                         </div>)
                 })}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
-            {!playing && <button onClick={onStart} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Jouer</button>}
-        </div>
+            {!playing && countdown === null &&
+                <div style={{
+                    width: GRID_SIZE * CELL_SIZE,
+                    height: GRID_SIZE * CELL_SIZE,
+                }}
+                    className="absolute flex justify-center items-center bg-[#FF00FF]/30">
+                    <button onClick={onStart}
+                        className="rounded cursor-pointer pt-2 pb-2 pl-8 pr-8  bg-black font-retro text-5xl text-[#27F52E] hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">Jouer
+                    </button>
+                </div>}
+            {countdown !== null &&
+                <div className='absolute top-50 text-[#27F52E] text-[200px] font-retro '>{countdown === 0 ? 'GO!' : countdown}</div>}
+        </div >
     )
 }
 

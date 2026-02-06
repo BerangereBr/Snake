@@ -11,8 +11,10 @@ function Game() {
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [speed, setSpeed] = useState(200);
-    const [playing, setPlaying] = useState(false);
+    const [countdown, setCountdown] = useState(null);
+    const [start, setStart] = useState(false);
     const score = Math.max(0, snake.length - 1);
+    const playing = start && countdown === null && !gameOver;
 
     useEffect(() => {
         if (!playing || gameOver) return
@@ -88,29 +90,45 @@ function Game() {
         return () => window.removeEventListener("keydown", handleKey)
     }, [direction, gameOver, playing]);
 
-    function Replay() {
+    function Reset() {
         setOpenModalGameover(false);
         setSnake([{ x: 10, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setDirection('RIGHT');
         setSpeed(200);
+    }
+
+    function Replay() {
+        Reset();
         setGameOver(false);
-        setPlaying(false);
+        setCountdown(null);
+        setStart(false);
     }
 
     function startGame() {
-        setPlaying(true);
-        setGameOver(false);
+        Reset();
+        setGameOver(false);;
+        setCountdown(3);
+        setStart(true);
     }
+
+    useEffect(() => {
+        if (countdown === null) return;
+
+        const time = setTimeout(() => {
+            setCountdown((prev) => prev > 0 ? prev - 1 : null);
+        }, 1000)
+        return () => clearTimeout(time);
+    }, [countdown]);
 
     return (
         <div className="bg-[#0A0A0A]" >
-            <Board snake={snake} food={food} score={score} isPlaying={playing} onStart={startGame} />
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} />
             {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
                 <div className="flex flex-col justify-center items-center bg-black w-1/4 h-1/3 rounded gap-5">
-                    <p className="text-[#FF00FF] font-retro text-7xl">GAME OVER</p>
+                    <p className="text-[#FF00FF] font-retro text-6xl">GAME OVER</p>
                     <p className="text-[#FF00FF] font-sans">Score : {score}</p>
-                    <button onClick={Replay} className="rounded cursor-pointer border-2 p-2 border-[#27F52E] bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Rejouer</button>
+                    <button onClick={Replay} className="rounded cursor-pointer  p-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Rejouer</button>
                 </div>
             </div> : null}
         </div>
