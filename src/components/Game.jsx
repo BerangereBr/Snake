@@ -102,21 +102,6 @@ function Game() {
         setPlaying(true);
         setGameOver(false);
     }
-    useEffect(() => {
-        if (playing) return
-        function handleStart(e) {
-            if (
-                e.key === 'ArrowUp' ||
-                e.key === 'ArrowDown' ||
-                e.key === 'ArrowLeft' ||
-                e.key === 'ArrowRight'
-            ) {
-                setPlaying(true);
-            }
-        }
-        window.addEventListener('keydown', handleStart);
-        return () => window.removeEventListener('keydown', handleStart);
-    }, [playing, gameOver]);
 
     return (
         <div className="bg-[#0A0A0A]" >
