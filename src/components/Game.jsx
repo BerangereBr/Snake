@@ -1,11 +1,17 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
+import pomme from "../assets/audio/pomme.wav";
+import gameoversound from "../assets/audio/gameoversound.wav";
+import startsound from "../assets/audio/startsound.wav";
 
 const GRID_SIZE = 15
+const eatSound = new Audio(pomme);
+const gameOverSound = new Audio(gameoversound);
+const startSound = new Audio(startsound);
 
 function Game() {
-    const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
+    const [snake, setSnake] = useState([{ x: 4, y: 10 }]);
     const [food, setFood] = useState({ x: 5, y: 5 });
     const [direction, setDirection] = useState('RIGHT');
     const [openModalGameover, setOpenModalGameover] = useState(false);
@@ -20,6 +26,7 @@ function Game() {
         if (!playing || gameOver) return
         const interval = setInterval(() => {
             setSnake((prevSnake) => {
+
                 const head = prevSnake[0];
                 let newHead
                 switch (direction) {
@@ -41,6 +48,7 @@ function Game() {
                 let newSnake = [newHead, ...prevSnake];
 
                 if (isEating) {
+                    eatSound.play();
                     setFood(GenerateFood(newSnake));
                     setSpeed((prevSpeed) => Math.max(50, prevSpeed - 2));
                 } else {
@@ -58,6 +66,7 @@ function Game() {
                     newHead.y >= GRID_SIZE;
 
                 if (hasSelfCollision || hasWallCollision) {
+                    gameOverSound.play();
                     setOpenModalGameover(true);
                     setGameOver(true)
                     return prevSnake;
@@ -92,7 +101,7 @@ function Game() {
 
     function Reset() {
         setOpenModalGameover(false);
-        setSnake([{ x: 10, y: 10 }]);
+        setSnake([{ x: 4, y: 10 }]);
         setFood({ x: 5, y: 5 });
         setDirection('RIGHT');
         setSpeed(200);
@@ -110,6 +119,7 @@ function Game() {
         setGameOver(false);;
         setCountdown(3);
         setStart(true);
+        startSound.play();
     }
 
     useEffect(() => {
@@ -123,9 +133,9 @@ function Game() {
 
     return (
         <div className="bg-black w-screen h-screen" >
-            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} />
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} />
             {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
-                <div className="flex flex-col justify-center items-center bg-black w-2/5 h-1/3 md:w-1/4 md:h-1/3 rounded gap-5 ">
+                <div className="flex flex-col justify-center items-center bg-black w-2/5 h-1/3 md:w-1/4 md:h-1/3 rounded gap-5 animate-gameover-spin">
                     <p className="text-[#FF00FF] font-retro text-4xl lg:text-6xl">GAME OVER</p>
                     <p className="text-[#FF00FF] font-sans">Score : {score}</p>
                     <button onClick={Replay} className="rounded cursor-pointer  p-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Rejouer</button>

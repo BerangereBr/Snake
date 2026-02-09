@@ -1,7 +1,7 @@
 const GRID_SIZE = 15;
 const CELL_SIZE = 30;
 
-function Board({ snake, food, score, playing, onStart, countdown }) {
+function Board({ snake, food, score, playing, onStart, countdown, openModalGameover }) {
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen gap-10">
             <div
@@ -33,7 +33,7 @@ function Board({ snake, food, score, playing, onStart, countdown }) {
                 })}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
-            {!playing && countdown === null &&
+            {!playing && countdown === null && openModalGameover === false &&
                 <div style={{
                     width: GRID_SIZE * CELL_SIZE,
                     height: GRID_SIZE * CELL_SIZE,
