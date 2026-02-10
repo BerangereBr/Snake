@@ -22,7 +22,7 @@ Jeu du Snake développé avec **React** dans le but d'approfondir mes connaissan
 
 ## Ce que j’ai appris
 
-- Gestion d’une boucle de jeu avec useEffect
+- Mise en place d’une boucle de jeu avec useEffect
 - Manipulation d’état complexe
 - Calcul de collisions
 - Structuration d’une application React
@@ -31,3 +31,5 @@ Jeu du Snake développé avec **React** dans le but d'approfondir mes connaissan
 
 npm install
 npm run dev
+
+Crédits audio : Pixabay

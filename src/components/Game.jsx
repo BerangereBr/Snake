@@ -1,7 +1,7 @@
 import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
-import pomme from "../assets/audio/pomme.wav";
+import pomme from "../assets/audio/pomme.mp3";
 import gameoversound from "../assets/audio/gameoversound.mp3";
 import startsound from "../assets/audio/startsound.mp3";
 
