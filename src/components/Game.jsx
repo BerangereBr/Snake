@@ -2,8 +2,8 @@ import Board from "./Board"
 import { useState, useEffect } from "react";
 import GenerateFood from "./GenerateFood";
 import pomme from "../assets/audio/pomme.wav";
-import gameoversound from "../assets/audio/gameoversound.wav";
-import startsound from "../assets/audio/startsound.wav";
+import gameoversound from "../assets/audio/gameoversound.mp3";
+import startsound from "../assets/audio/startsound.mp3";
 
 const GRID_SIZE = 15
 const eatSound = new Audio(pomme);

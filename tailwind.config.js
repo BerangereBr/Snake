@@ -19,7 +19,7 @@ export default {
         },
       },
       animation: {
-        'gameover-spin': 'gameoverSpin 1.9s cubic-bezier(.3,1.6,.6,1)forwards',
+        'gameover-spin': 'gameoverSpin 1s cubic-bezier(.3,1.6,.6,1)forwards',
       },
     },
   },
