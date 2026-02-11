@@ -50,10 +50,10 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
             {countdown !== null &&
                 <div className='absolute top-50 text-[#27F52E] text-[200px] font-retro '>{countdown === 0 ? 'GO!' : countdown}</div>}
             {openModalSnakeGuide && <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
-                <div className=" relative flex flex-col justify-center items-center bg-black w-2/5 lg:w-1/4 h-1/2 md:1/3 rounded gap-2">
+                <div className=" relative flex flex-col justify-center items-center bg-black w-1/2 h-2/5 lg:w-1/4 lg:h-1/2 md:w-1/3 md:h-1/2 sm:h-1/3 sm:w-1/2 rounded gap-2">
                     <button onClick={() => { setOpenModalSnakeGuide(false) }} className="absolute top-5 right-5 rounded cursor-pointer px-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">x</button>
                     <p className="text-[#FF00FF] text-4xl md:text-6xl font-retro">Snake</p>
-                    <p className="font-sans text-white p-5 text-base md:text-xl">Utilisez les flèches du clavier pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !</p>
+                    <p className="font-sans text-white p-5 text-base md:text-xl text-justify">Utilisez les flèches du clavier pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !</p>
                 </div>
             </div>}
         </div >

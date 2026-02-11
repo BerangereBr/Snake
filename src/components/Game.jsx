@@ -138,7 +138,7 @@ function Game() {
                 <div className="flex flex-col justify-center items-center bg-black w-2/5 h-1/3 md:w-1/4 md:h-1/3 rounded gap-5 animate-gameover-spin">
                     <p className="text-[#FF00FF] font-retro text-4xl lg:text-6xl">GAME OVER</p>
                     <p className="text-[#FF00FF] font-sans">Score : {score}</p>
-                    <button onClick={Replay} className="rounded cursor-pointer  p-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[150px]">Rejouer</button>
+                    <button onClick={Replay} className="rounded cursor-pointer  p-2 bg-[#27F52E] font-retro text-black text-2xl lg:text-4xl hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[120px] md:w-[150px]">Rejouer</button>
                 </div>
             </div> : null}
         </div>
