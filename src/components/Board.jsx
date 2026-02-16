@@ -106,7 +106,9 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
                 <div className=" relative flex flex-col justify-center items-center bg-black p-5 max-h-[80vh] w-[90%] sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded gap-2">
                     <button onClick={() => { setOpenModalSnakeGuide(false) }} className="absolute top-5 right-5 rounded cursor-pointer px-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">x</button>
                     <p className="text-[#FF00FF] text-4xl md:text-6xl font-retro">Snake</p>
-                    <p className="font-sans text-white text-base md:text-xl text-justify">Utilisez les flèches du clavier ou ZQSD pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !</p>
+                    <p className="font-sans text-white text-base md:text-xl text-justify">
+                        {isMobile ? "Utilisez les boutons pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !"
+                            : "Utilisez les flèches du clavier ou ZQSD pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !"}</p>
                 </div>
             </div>}
             {isMobile && <div className="grid grid-cols-3 gap-2">
