@@ -83,17 +83,31 @@ function Game() {
         return () => clearInterval(interval)
     }, [direction, food, gameOver, speed, playing]);
 
+    function changeDirection(nextDirection) {
+        setDirection((current) => {
+            if (
+                (current === "UP" && nextDirection === "DOWN") ||
+                (current === "DOWN" && nextDirection === "UP") ||
+                (current === "LEFT" && nextDirection === "RIGHT") ||
+                (current === "RIGHT" && nextDirection === "LEFT")
+            ) {
+                return current
+            }
+            return nextDirection
+        })
+    }
+
     useEffect(() => {
         if (!playing || gameOver) return
         function handleKey(e) {
-            if (controls.UP.includes(e.key) && direction !== "DOWN") {
-                setDirection("UP")
-            } else if (controls.DOWN.includes(e.key) && direction !== "UP") {
-                setDirection("DOWN")
-            } else if (controls.LEFT.includes(e.key) && direction !== "RIGHT") {
-                setDirection("LEFT")
-            } else if (controls.RIGHT.includes(e.key) && direction !== "LEFT") {
-                setDirection("RIGHT")
+            if (controls.UP.includes(e.key)) {
+                changeDirection("UP")
+            } else if (controls.DOWN.includes(e.key)) {
+                changeDirection("DOWN")
+            } else if (controls.LEFT.includes(e.key)) {
+                changeDirection("LEFT")
+            } else if (controls.RIGHT.includes(e.key)) {
+                changeDirection("RIGHT")
             }
         }
         window.addEventListener("keydown", handleKey)
@@ -134,14 +148,7 @@ function Game() {
 
     return (
         <div className="bg-black w-screen h-screen" >
-            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} />
-            {openModalGameover ? <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
-                <div className="flex flex-col justify-center items-center bg-black max-h-[80vh] w-[50%] sm:w-2/3 md:w-1/2 lg:w-1/4 xl:w-1/4 rounded gap-5 animate-gameover-spin p-5">
-                    <p className="text-[#FF00FF] font-retro text-6xl text-center">GAME OVER</p>
-                    <p className="text-[#FF00FF] font-sans">Score : {score}</p>
-                    <button onClick={Replay} className="rounded cursor-pointer  p-2 bg-[#27F52E] font-retro text-black text-4xl hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[120px] md:w-[150px]">Rejouer</button>
-                </div>
-            </div> : null}
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} />
         </div>
     )
 }
