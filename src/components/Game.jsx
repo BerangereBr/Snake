@@ -19,6 +19,12 @@ function Game() {
     const [speed, setSpeed] = useState(200);
     const [countdown, setCountdown] = useState(null);
     const [start, setStart] = useState(false);
+    const [controls] = useState({
+        "UP": ["ArrowUp", "z"],
+        "DOWN": ["ArrowDown", "s"],
+        "LEFT": ["ArrowLeft", "q"],
+        "RIGHT": ["ArrowRight", "d"]
+    });
     const score = Math.max(0, snake.length - 1);
     const playing = start && countdown === null && !gameOver;
 
@@ -80,24 +86,19 @@ function Game() {
     useEffect(() => {
         if (!playing || gameOver) return
         function handleKey(e) {
-            switch (e.key) {
-                case "ArrowUp":
-                    if (direction !== "DOWN") setDirection("UP")
-                    break
-                case "ArrowDown":
-                    if (direction !== "UP") setDirection("DOWN")
-                    break
-                case "ArrowLeft":
-                    if (direction !== "RIGHT") setDirection("LEFT")
-                    break
-                case "ArrowRight":
-                    if (direction !== "LEFT") setDirection("RIGHT")
-                    break
+            if (controls.UP.includes(e.key) && direction !== "DOWN") {
+                setDirection("UP")
+            } else if (controls.DOWN.includes(e.key) && direction !== "UP") {
+                setDirection("DOWN")
+            } else if (controls.LEFT.includes(e.key) && direction !== "RIGHT") {
+                setDirection("LEFT")
+            } else if (controls.RIGHT.includes(e.key) && direction !== "LEFT") {
+                setDirection("RIGHT")
             }
         }
         window.addEventListener("keydown", handleKey)
         return () => window.removeEventListener("keydown", handleKey)
-    }, [direction, gameOver, playing]);
+    }, [direction, gameOver, playing, controls]);
 
     function Reset() {
         setOpenModalGameover(false);
