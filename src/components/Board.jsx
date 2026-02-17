@@ -8,7 +8,7 @@ const CELL_SIZE = 30;
 const CELL_SIZE_MOBILE = 20;
 const SCREEN_SIZE = 1024;
 
-function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection, toggleSound, sound }) {
+function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection, toggleSound, sound, chooseLevel }) {
     const [openModalSnakeGuide, setOpenModalSnakeGuide] = useState(true);
     const [isMobile, setIsMobile] = useState(window.innerWidth < SCREEN_SIZE);
 
@@ -21,7 +21,7 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
     })
 
     return (
-        <div className="relative flex flex-col justify-center items-center w-screen h-screen gap-10">
+        <div className="relative flex flex-col justify-center items-center w-screen h-screen gap-5">
             <div
                 className='grid rounded shadow-[0px_0px_40px_2px_#FF00FF] '
                 style={isMobile ?
@@ -99,18 +99,24 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
                     <div className="flex flex-col justify-center items-center bg-black max-h-[40vh] w-[80%] rounded gap-5 animate-gameover-spin p-5">
                         <p className="text-[#FF00FF] font-retro text-6xl text-center">GAME OVER</p>
                         <p className="text-[#FF00FF] font-sans">Score : {score}</p>
-                        <button onClick={replay} className="rounded cursor-pointer p-2 bg-[#27F52E] font-retro text-black text-4xl hover:scale-110 hover:shadow-[0_0_15px_#27F52E] w-[120px] md:w-[150px]">Rejouer</button>
+                        <div className="flex gap-5">
+                            <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110 font-retro text-2xl hover:shadow-[0_0_15px_#27F52E]" onClick={() => { chooseLevel("EASY"); replay() }}>easy</button>
+                            <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110 font-retro text-2xl hover:shadow-[0_0_15px_#27F52E]" onClick={() => { chooseLevel("HARD"); replay() }}>hard</button>
+                        </div>
                     </div>
                 </div> : null}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
             {openModalSnakeGuide && <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
                 <div className=" relative flex flex-col justify-center items-center bg-black p-5 max-h-[80vh] w-[90%] sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded gap-2">
-                    <button onClick={() => { setOpenModalSnakeGuide(false) }} className="absolute top-5 right-5 rounded cursor-pointer px-2 bg-[#27F52E] font-sans text-black hover:scale-110 hover:shadow-[0_0_15px_#27F52E]">x</button>
                     <p className="text-[#FF00FF] text-4xl md:text-6xl font-retro">Snake</p>
                     <p className="font-sans text-white text-base md:text-xl text-justify">
                         {isMobile ? "Utilisez les boutons pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !"
                             : "Utilisez les flèches du clavier ou ZQSD pour diriger le serpent et manger la nourriture. Chaque fois que vous mangez, le serpent grandit. Faites attention à ne pas vous mordre la queue ou à sortir des limites du plateau de jeu !"}</p>
+                    <div className="flex gap-5">
+                        <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110 font-sans" onClick={() => { chooseLevel("EASY"); setOpenModalSnakeGuide(false) }}>easy</button>
+                        <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110 font-sans " onClick={() => { chooseLevel("HARD"); setOpenModalSnakeGuide(false) }}>hard</button>
+                    </div>
                 </div>
             </div>}
             {isMobile && <div className="grid grid-cols-3 gap-2">

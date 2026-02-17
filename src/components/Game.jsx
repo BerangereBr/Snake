@@ -1,5 +1,5 @@
 import Board from "./Board"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import GenerateFood from "./GenerateFood";
 import pomme from "../assets/audio/pomme.mp3";
 import gameoversound from "../assets/audio/gameoversound.mp3";
@@ -17,6 +17,7 @@ function Game() {
     const [openModalGameover, setOpenModalGameover] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [speed, setSpeed] = useState(200);
+    const [level, setLevel] = useState("EASY");
     const [countdown, setCountdown] = useState(null);
     const [start, setStart] = useState(false);
     const [sound, setSound] = useState(true);
@@ -28,6 +29,18 @@ function Game() {
     });
     const score = Math.max(0, snake.length - 1);
     const playing = start && countdown === null && !gameOver;
+
+    function chooseLevel(selectedLevel) {
+        setLevel(selectedLevel);
+    }
+
+    const speedUp = useCallback(() => {
+        if (level === "EASY") {
+            setSpeed((prevSpeed) => Math.max(50, prevSpeed - 2));
+        } else if (level === "HARD") {
+            setSpeed((prevSpeed) => Math.max(25, prevSpeed - 10));
+        }
+    }, [level]);
 
     useEffect(() => {
         if (!playing || gameOver) return
@@ -57,7 +70,7 @@ function Game() {
                 if (isEating) {
                     eatSound.play();
                     setFood(GenerateFood(newSnake));
-                    setSpeed((prevSpeed) => Math.max(50, prevSpeed - 2));
+                    speedUp();
                 } else {
                     newSnake.pop()
                 }
@@ -82,7 +95,7 @@ function Game() {
             })
         }, speed)
         return () => clearInterval(interval)
-    }, [direction, food, gameOver, speed, playing]);
+    }, [direction, food, gameOver, speed, playing, speedUp]);
 
     function changeDirection(nextDirection) {
         setDirection((current) => {
@@ -159,7 +172,7 @@ function Game() {
 
     return (
         <div className="bg-black w-screen h-screen" >
-            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} toggleSound={toggleSound} sound={sound} />
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} toggleSound={toggleSound} sound={sound} chooseLevel={chooseLevel} />
         </div>
     )
 }
