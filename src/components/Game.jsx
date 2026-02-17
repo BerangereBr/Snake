@@ -19,6 +19,7 @@ function Game() {
     const [speed, setSpeed] = useState(200);
     const [countdown, setCountdown] = useState(null);
     const [start, setStart] = useState(false);
+    const [sound, setSound] = useState(true);
     const [controls] = useState({
         "UP": ["ArrowUp", "z"],
         "DOWN": ["ArrowDown", "s"],
@@ -137,6 +138,16 @@ function Game() {
         startSound.play();
     }
 
+    function toggleSound() {
+        setSound((prev) => !prev);
+    }
+
+    useEffect(() => {
+        eatSound.muted = !sound;
+        gameOverSound.muted = !sound;
+        startSound.muted = !sound;
+    }, [sound])
+
     useEffect(() => {
         if (countdown === null) return;
 
@@ -148,7 +159,7 @@ function Game() {
 
     return (
         <div className="bg-black w-screen h-screen" >
-            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} />
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} toggleSound={toggleSound} sound={sound} />
         </div>
     )
 }

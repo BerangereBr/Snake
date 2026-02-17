@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import arrow from "../assets/images/arrow.png";
+import soundOn from "../assets/images/soundOn.png";
+import soundOff from "../assets/images/soundOff.png";
 
 const GRID_SIZE = 15;
 const CELL_SIZE = 30;
 const CELL_SIZE_MOBILE = 20;
 const SCREEN_SIZE = 1024;
 
-function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection }) {
+function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection, toggleSound, sound }) {
     const [openModalSnakeGuide, setOpenModalSnakeGuide] = useState(true);
     const [isMobile, setIsMobile] = useState(window.innerWidth < SCREEN_SIZE);
 
@@ -117,6 +119,7 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
                 <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110" onClick={() => onDirection("DOWN")}><img src={arrow} alt="flèche directionnelle" className="w-10 h-10" /></button>
                 <button className=" bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110" onClick={() => onDirection("RIGHT")}><img src={arrow} alt="flèche directionnelle" className="w-10 h-10 -rotate-90" /></button>
             </div>}
+            <button className=" flex items-center justify-center bg-[#27F52E] cursor-pointer rounded p-2 hover:scale-110" onClick={toggleSound}> <img src={sound ? soundOn : soundOff} alt={sound ? "Son activé" : "Son désactivé"} className="w-6 h-6 " /></button>
         </div >
     )
 }
