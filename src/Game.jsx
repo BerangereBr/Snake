@@ -1,14 +1,8 @@
-import Board from "./Board"
+import Board from "./components/Board"
 import { useState, useEffect, useCallback } from "react";
-import GenerateFood from "./GenerateFood";
-import pomme from "../assets/audio/pomme.mp3";
-import gameoversound from "../assets/audio/gameoversound.mp3";
-import startsound from "../assets/audio/startsound.mp3";
-
-const GRID_SIZE = 15
-const eatSound = new Audio(pomme);
-const gameOverSound = new Audio(gameoversound);
-const startSound = new Audio(startsound);
+import useSnakeMovement from "./hooks/useSnakeMovement";
+import useKeyBoardControls from "./hooks/useKeyBoardControls";
+import useSound from "./hooks/useSound";
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 4, y: 10 }]);
@@ -21,6 +15,7 @@ function Game() {
     const [countdown, setCountdown] = useState(null);
     const [start, setStart] = useState(false);
     const [sound, setSound] = useState(true);
+    const { playEat, playGameOver, playStart } = useSound({ sound });
     const [hightScore, setHightScore] = useState([]);
     const [controls] = useState({
         "UP": ["ArrowUp", "z"],
@@ -52,62 +47,6 @@ function Game() {
         }
     }, [level]);
 
-    useEffect(() => {
-        if (!playing || gameOver) return
-        const interval = setInterval(() => {
-            setSnake((prevSnake) => {
-
-                const head = prevSnake[0];
-                let newHead
-                switch (direction) {
-                    case "RIGHT":
-                        newHead = { x: head.x + 1, y: head.y }
-                        break
-                    case "LEFT":
-                        newHead = { x: head.x - 1, y: head.y }
-                        break
-                    case "UP":
-                        newHead = { x: head.x, y: head.y - 1 }
-                        break
-                    case "DOWN":
-                        newHead = { x: head.x, y: head.y + 1 }
-                        break
-                }
-
-                const isEating = newHead.x === food.x && newHead.y === food.y;
-                let newSnake = [newHead, ...prevSnake];
-
-                if (isEating) {
-                    eatSound.play();
-                    setFood(GenerateFood(newSnake));
-                    speedUp();
-                } else {
-                    newSnake.pop()
-                }
-
-                const hasSelfCollision = newSnake
-                    .slice(1)
-                    .some((cellSnake) => cellSnake.x === newHead.x && cellSnake.y === newHead.y);
-
-                const hasWallCollision =
-                    newHead.x < 0 ||
-                    newHead.x >= GRID_SIZE ||
-                    newHead.y < 0 ||
-                    newHead.y >= GRID_SIZE;
-
-                if (hasSelfCollision || hasWallCollision) {
-                    gameOverSound.play();
-                    setOpenModalGameover(true);
-                    setGameOver(true)
-                    saveScore(score);
-                    return prevSnake;
-                }
-                return newSnake
-            })
-        }, speed)
-        return () => clearInterval(interval)
-    }, [direction, food, gameOver, speed, playing, speedUp, score]);
-
     function changeDirection(nextDirection) {
         setDirection((current) => {
             if (
@@ -121,23 +60,6 @@ function Game() {
             return nextDirection
         })
     }
-
-    useEffect(() => {
-        if (!playing || gameOver) return
-        function handleKey(e) {
-            if (controls.UP.includes(e.key)) {
-                changeDirection("UP")
-            } else if (controls.DOWN.includes(e.key)) {
-                changeDirection("DOWN")
-            } else if (controls.LEFT.includes(e.key)) {
-                changeDirection("LEFT")
-            } else if (controls.RIGHT.includes(e.key)) {
-                changeDirection("RIGHT")
-            }
-        }
-        window.addEventListener("keydown", handleKey)
-        return () => window.removeEventListener("keydown", handleKey)
-    }, [direction, gameOver, playing, controls]);
 
     function Reset() {
         setOpenModalGameover(false);
@@ -159,18 +81,12 @@ function Game() {
         setGameOver(false);;
         setCountdown(3);
         setStart(true);
-        startSound.play();
+        playStart();
     }
 
     function toggleSound() {
         setSound((prev) => !prev);
     }
-
-    useEffect(() => {
-        eatSound.muted = !sound;
-        gameOverSound.muted = !sound;
-        startSound.muted = !sound;
-    }, [sound])
 
     useEffect(() => {
         if (countdown === null) return;
@@ -180,6 +96,9 @@ function Game() {
         }, 1000)
         return () => clearTimeout(time);
     }, [countdown]);
+
+    useSnakeMovement({ direction, food, gameOver, speed, playing, speedUp, score, setSnake, setOpenModalGameover, setFood, setGameOver, setHightScore, saveScore, playEat, playGameOver });
+    useKeyBoardControls({ gameOver, playing, controls, changeDirection });
 
     return (
         <div className="bg-black w-screen h-screen" >

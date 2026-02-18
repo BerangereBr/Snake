@@ -19,7 +19,6 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     })
-
     return (
         <div className="relative flex flex-col justify-center items-center w-screen h-screen gap-5">
             <div
