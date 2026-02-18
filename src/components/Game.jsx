@@ -21,6 +21,7 @@ function Game() {
     const [countdown, setCountdown] = useState(null);
     const [start, setStart] = useState(false);
     const [sound, setSound] = useState(true);
+    const [hightScore, setHightScore] = useState([]);
     const [controls] = useState({
         "UP": ["ArrowUp", "z"],
         "DOWN": ["ArrowDown", "s"],
@@ -28,6 +29,15 @@ function Game() {
         "RIGHT": ["ArrowRight", "d"]
     });
     const score = Math.max(0, snake.length - 1);
+
+    function saveScore(score) {
+        setHightScore((prev) => {
+            const updatedScores = [...prev, score].sort((a, b) => b - a);
+            localStorage.setItem("score", JSON.stringify(updatedScores));
+            return updatedScores;
+        });
+    }
+
     const playing = start && countdown === null && !gameOver;
 
     function chooseLevel(selectedLevel) {
@@ -89,13 +99,14 @@ function Game() {
                     gameOverSound.play();
                     setOpenModalGameover(true);
                     setGameOver(true)
+                    saveScore(score);
                     return prevSnake;
                 }
                 return newSnake
             })
         }, speed)
         return () => clearInterval(interval)
-    }, [direction, food, gameOver, speed, playing, speedUp]);
+    }, [direction, food, gameOver, speed, playing, speedUp, score]);
 
     function changeDirection(nextDirection) {
         setDirection((current) => {
@@ -172,7 +183,7 @@ function Game() {
 
     return (
         <div className="bg-black w-screen h-screen" >
-            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} toggleSound={toggleSound} sound={sound} chooseLevel={chooseLevel} />
+            <Board snake={snake} food={food} score={score} playing={playing} onStart={startGame} countdown={countdown} openModalGameover={openModalGameover} replay={Replay} onDirection={changeDirection} toggleSound={toggleSound} sound={sound} chooseLevel={chooseLevel} hightScore={hightScore} />
         </div>
     )
 }

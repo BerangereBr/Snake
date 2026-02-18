@@ -8,7 +8,7 @@ const CELL_SIZE = 30;
 const CELL_SIZE_MOBILE = 20;
 const SCREEN_SIZE = 1024;
 
-function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection, toggleSound, sound, chooseLevel }) {
+function Board({ snake, food, score, playing, onStart, countdown, openModalGameover, replay, onDirection, toggleSound, sound, chooseLevel, hightScore }) {
     const [openModalSnakeGuide, setOpenModalSnakeGuide] = useState(true);
     const [isMobile, setIsMobile] = useState(window.innerWidth < SCREEN_SIZE);
 
@@ -107,6 +107,7 @@ function Board({ snake, food, score, playing, onStart, countdown, openModalGameo
                 </div> : null}
             </div >
             <div className='text-[#27F52E] text-4xl font-retro'>Score : {score}</div>
+            {hightScore[0] !== undefined && <p className="text-[#27F52E] font-retro text-2xl">Hightscore : {hightScore[0]}</p>}
             {openModalSnakeGuide && <div className="absolute flex justify-center items-center w-screen h-screen z-20 top-0 bg-black bg-opacity-50">
                 <div className=" relative flex flex-col justify-center items-center bg-black p-5 max-h-[80vh] w-[90%] sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded gap-2">
                     <p className="text-[#FF00FF] text-4xl md:text-6xl font-retro">Snake</p>
