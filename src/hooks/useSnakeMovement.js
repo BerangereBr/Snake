@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import GenerateFood from "../utils/GenerateFood";
-import useCollision from "../utils/useCollision";
+import GenerateFood from "../utils/generateFood";
+import useCollision from "../utils/checkCollision";
 
 function useSnakeMovement({ direction, food, gameOver, speed, playing, speedUp, score, setOpenModalGameover, setSnake, setFood, setGameOver, saveScore, playEat, playGameOver }) {
     const { checkCollision } = useCollision();

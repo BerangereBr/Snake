@@ -1,8 +1,9 @@
 import Board from "./components/Board"
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import useSnakeMovement from "./hooks/useSnakeMovement";
 import useKeyBoardControls from "./hooks/useKeyBoardControls";
 import useSound from "./hooks/useSound";
+import useCountdown from "./hooks/useCountdown";
 
 function Game() {
     const [snake, setSnake] = useState([{ x: 4, y: 10 }]);
@@ -88,17 +89,9 @@ function Game() {
         setSound((prev) => !prev);
     }
 
-    useEffect(() => {
-        if (countdown === null) return;
-
-        const time = setTimeout(() => {
-            setCountdown((prev) => prev > 0 ? prev - 1 : null);
-        }, 1000)
-        return () => clearTimeout(time);
-    }, [countdown]);
-
     useSnakeMovement({ direction, food, gameOver, speed, playing, speedUp, score, setSnake, setOpenModalGameover, setFood, setGameOver, setHightScore, saveScore, playEat, playGameOver });
     useKeyBoardControls({ gameOver, playing, controls, changeDirection });
+    useCountdown({ countdown, setCountdown });
 
     return (
         <div className="bg-black w-screen h-screen" >
